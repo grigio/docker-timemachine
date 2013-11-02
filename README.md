@@ -12,7 +12,8 @@ Build the image with `docker build -t my/tm .` in this directory.
 
 ### Running
 
-# Example docker run command, mount your volume in the guest /TimeCapsule directory
+Example docker run command, mount your volume in the guest /TimeCapsule directory
+
 ```
 docker run -n=false \
   -v /rpool/timemachine:/TimeCapsule \
