@@ -15,8 +15,8 @@ Build the image with `docker build -t my/tm .` in this directory.
 Example docker run command, mount your volume in the guest /TimeCapsule directory
 
 ```
-docker run -n=false \
-  -v /rpool/timemachine:/TimeCapsule \
+docker run -h mytimecapsule -n=false \
+  -v /hostdirectory/timemachine:/TimeCapsule \
   -lxc-conf="lxc.network.type = veth" \
   -lxc-conf="lxc.network.flags = up" \
   -lxc-conf="lxc.network.link = br0" \
