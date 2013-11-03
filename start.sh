@@ -14,5 +14,4 @@ sleep 1
 /etc/init.d/netatalk start
 sleep 3
 
-# afpd / netatalk should be logged here
-tail -f /var/log/dmesg
+tail -f /var/log/afpd.log
