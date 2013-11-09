@@ -1,0 +1,29 @@
+# Example docker run command, mount your volume in the guest /TimeCapsule directory
+
+# build image
+docker build -t my/tmc3 .
+
+# start image
+docker run -h timecapsule -n=false \
+  -v /rpool/timemachine:/TimeCapsule \
+  -lxc-conf="lxc.network.type = veth" \
+  -lxc-conf="lxc.network.flags = up" \
+  -lxc-conf="lxc.network.link = br0" \
+  -lxc-conf="lxc.network.ipv4 = 192.168.1.11" \
+  -lxc-conf="lxc.network.ipv4.gateway=192.168.1.1" \
+my/tm3 /start.sh
+
+# in alternative debug
+docker run -h timecapsule -n=false \
+  -v /rpool/timemachine:/TimeCapsule \
+  -lxc-conf="lxc.network.type = veth" \
+  -lxc-conf="lxc.network.flags = up" \
+  -lxc-conf="lxc.network.link = br0" \
+  -lxc-conf="lxc.network.ipv4 = 192.168.1.11" \
+  -lxc-conf="lxc.network.ipv4.gateway=192.168.1.1" \
+-t -i my/tm3 bash
+
+# You are in
+
+
+
