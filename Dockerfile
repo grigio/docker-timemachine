@@ -6,30 +6,19 @@ FROM ubuntu:12.04
 MAINTAINER Luigi Maselli
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV LANG en_US.UTF-8
+RUN apt-get install -y python-software-properties
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
+
+RUN add-apt-repository -y ppa:jofko/ppa
 RUN apt-get update
 
-RUN apt-get install -y netatalk avahi-daemon libnss-mdns language-pack-en #libc6-dev
+RUN apt-get install -y netatalk avahi-daemon
 
-# patching
-RUN sed 's/mdns4$/mdns4 mdns/' -i /etc/nsswitch.conf
+# static patching
+RUN sed 's/ENABLE_DAEMON=0$/ENABLE_DAEMON=1/' -i /etc/default/netatalk
 
-# NOTE: maybe it could be inline but I've some escape problems in the Dockerfile
+ADD afp.conf /etc/netatalk/afp.conf
 ADD afpd.service /etc/avahi/services/afpd.service
 
-RUN sed 's#~/#/TimeCapsule#' -i /etc/netatalk/AppleVolumes.default
-
-#RUN cat >> /etc/default/netatalk <<DELIM
-#ATALKD_RUN=no
-#PAPD_RUN=no
-#TIMELORD_RUN=no
-#A2BOOT_RUN=no
-#DELIM
-
-RUN sed 's#Home Directory#Time Capsule (Virtual)#' -i /etc/netatalk/AppleVolumes.default
-
-RUN echo "- -mimicmodel TimeCapsule6,106 -setuplog \"default log_warn /var/log/afpd.log\"" >> /etc/netatalk/afpd.conf
-
 ADD start.sh /start.sh
-ENTRYPOINT ["/start.sh"]
+
